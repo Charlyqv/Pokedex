@@ -21,12 +21,6 @@ export const Pokemons = () => {
 
   const handleChangePokemonName = (e) => setPokemonName(e.target.value.toLowerCase());
 
-  //Forma no controlada
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setPokemonName(e.target.pokemonName.value.toLowerCase());
-  // };
-
   useEffect(() => {
     axios.get("https://pokeapi.co/api/v2/pokemon?limit=898")
     .then(({ data }) => setAllPokemons(data.results))
@@ -35,13 +29,16 @@ export const Pokemons = () => {
 
   useEffect(() => {
     if(isVisible){
+      const maxPokemons = pokemonsByName.length;
       const newLimit = limit + INCREASE_LIMIT;
-      setLimit(newLimit);
+      newLimit > maxPokemons ? setLimit(maxPokemons) : setLimit(newLimit);
     }
-  }, [isVisible])
-  
-  
+  }, [isVisible]);
 
+  useEffect(() => {
+    setLimit(INITIAL_LIMIT);
+  }, [pokemonName])
+  
   return (
     <section className='p-4 py-5'>
       <form>
@@ -66,3 +63,10 @@ export const Pokemons = () => {
     </section>
   )
 }
+
+
+  //Forma no controlada
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setPokemonName(e.target.pokemonName.value.toLowerCase());
+  // };
