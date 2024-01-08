@@ -1,13 +1,25 @@
 const formatStats = (stats) => {
+
+  const nameTypes = {
+    hp: "HP",
+    attack: "ATK",
+    defense: "DEF",
+    "special-attack": "SpA",
+    "special-defense": "SpD",
+    speed: "SPD",
+  }
+
   const newStats = stats.map(({stat, base_stat}) => ({
-    name: stat.name, 
+    name: nameTypes[stat.name], 
     base_stat,
   }));
 
   newStats.push({
-    name: "total",
+    name: "TOT",
     base_stat: newStats.reduce((acc, stat) => stat.base_stat + acc, 0),
   });
+
+  return newStats;
 }
 
 const formatTypes = (types) => types.map((type) => type.type.name);

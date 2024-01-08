@@ -18,6 +18,9 @@ const PokemonProvider = ({children}) => {
 
     const {id, name, height, weight, stats, types, abilities } = pokemonInfo;
 
+    console.log(formatStats(stats));
+    console.log(getEvolutions(dataEvolution));
+
     setPokemonDetail({
       id,
       name,
