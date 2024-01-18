@@ -1,3 +1,5 @@
+import { getEvolitionData } from "../services/pokemonServices";
+
 const formatStats = (stats) => {
 
   const nameTypes = {
@@ -22,13 +24,19 @@ const formatStats = (stats) => {
   return newStats;
 }
 
+const getImageByPokemon = (sprites) => {
+ return (
+  sprites.versions["generation-v"]["black-white"].animated.front_default ?? sprites.versions["generation-v"]["black-white"].front_default
+ );
+}
+
 const formatTypes = (types) => types.map((type) => type.type.name);
 
 const formatAbilities = (abilities) => abilities.map((ability) => ability.ability.name);
 
 const getPokemonDescription = (pokemonSpecie) => pokemonSpecie.flavor_text_entries[1].flavor_text;
 
-const getEvolutions = (evolutionInfo) => {
+const getEvolutions = async (evolutionInfo) => {
   const evolutions = []
 
   let evolutionData = evolutionInfo.chain;
@@ -44,7 +52,26 @@ const getEvolutions = (evolutionInfo) => {
     evolutionData = evolutionData.evolves_to[0];
   } while (!!evolutionData);
 
+  const promises = getEvolitionData(evolutions);
+
+  try {
+    const responses = await Promise.allSettled(promises);
+    assignInfoToEvolutions(responses, evolutions)
+  } catch (err) {
+    
+  }
+
   return evolutions;
 };
 
-export { formatStats, formatTypes, formatAbilities, getPokemonDescription, getEvolutions };
+const assignInfoToEvolutions = (responses, evolutions) => {
+  responses.forEach((response, index) => {
+    if(response.status === "fulfilled"){
+      evolutions[index].image = response.value.data.sprites.versions["generation-v"]["black-white"].front_default;
+      evolutions[index].pokemonInfo = response.value.data;
+    }
+  })
+
+}
+
+export { formatStats, formatTypes, formatAbilities, getPokemonDescription, getEvolutions, assignInfoToEvolutions, getImageByPokemon };
