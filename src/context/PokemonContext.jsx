@@ -20,6 +20,7 @@ const PokemonProvider = ({children}) => {
 
     const evolutions = await getEvolutions(dataEvolution);
     console.log("🚀 ~ file: PokemonContext.jsx:22 ~ showPokemon ~ evolutions:", evolutions);
+    console.log("🚀 ~ showPokemon ~ getImageByPokemon(pokemonInfo.sprites):", getImageByPokemon(pokemonInfo.sprites));
     
     setPokemonDetail({
       id,

@@ -5,7 +5,7 @@ import usePokemonContext from "./hooks/usePokemonContext"
 
 function App() {
 
-  const { showDetailPokemon, closePokemonDetail } = usePokemonContext();
+  const { showDetailPokemon, closePokemonDetail, pokemonDetail } = usePokemonContext();
 
   return (
     <section className="bg-[#F6F8FC] h-screen font-outfit overflow-y-auto">
@@ -15,6 +15,7 @@ function App() {
         <ModalPokemon 
           showModal={ showDetailPokemon }
           onCloseModal={closePokemonDetail}
+          pokemon={pokemonDetail}
         />
       </main>
     </section>
