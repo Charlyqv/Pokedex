@@ -1,6 +1,17 @@
 import { IconX } from '@tabler/icons-react'
 import React from 'react'
 import { colorByType } from '../constants/pokemon';
+import { Evolutions } from './Evolutions';
+
+const colorByStat = {
+  HP: "[&>div]:bg-red-500 bg-slate-100",
+  ATK: "[&>div]:bg-orange-500 bg-slate-100",
+  DEF: "[&>div]:bg-yellow-500 bg-slate-100",
+  SpA: "[&>div]:bg-blue-300 bg-slate-100",
+  SpD: "[&>div]:bg-green-500 bg-slate-100",
+  SPD: "[&>div]:bg-pink-500 bg-slate-100",
+  TOT: "[&>div]:bg-blue-500 bg-blue-300",
+}
 
 export const ModalPokemon = ({ showModal, onCloseModal, pokemon }) => {
   console.log("🚀 ~ ModalPokemon ~ pokemon:", pokemon);
@@ -14,14 +25,17 @@ export const ModalPokemon = ({ showModal, onCloseModal, pokemon }) => {
       >
         <IconX size={32} stroke={4}/>
       </button>
+
+      <header className='absolute left-1/2 -translate-x-1/2 -translate-y-1/2'>
+        <img src={pokemon?.image} alt="" />
+      </header>
+
       <article 
-        className={`bg-white h-[85%] absolute w-full bottom-0 rounded-tl-3xl rounded-tr-3xl text-center transition-all duration-500 px-4 grid gap-2 content-start ${ showModal ? "bottom-0" : "-bottom-full"}`}
+        className={`bg-white h-[85%] absolute w-full bottom-0 rounded-tl-3xl rounded-tr-3xl text-center transition-all overflow-auto duration-500 px-4 grid gap-2 content-start ${ showModal ? "bottom-0" : "-bottom-full"}`}
       >
-        <header>
-          <img src={pokemon?.image} alt="" />
-        </header>
+        
         <span className='text-slate-400 text-sm font-semibold'>N° {pokemon?.id}</span>
-        <h2 className='font-bold text-lg capitalize'>{pokemon?.name}</h2>
+        <h2 className='font-bold text-2xl capitalize'>{pokemon?.name}</h2>
         <ul className='flex gap-2 justify-center'>
           {pokemon?.types.map((type) => (
             <li 
@@ -38,17 +52,17 @@ export const ModalPokemon = ({ showModal, onCloseModal, pokemon }) => {
         </div>
         {/* Altura y peso */}
         <section className='grid grid-cols-2 gap-4'>
-          <div>
+          <div className='grid gap-2'>
             <h4 className='font-bold capitalize'>Height</h4>
             <span className='bg-slate-100 block rounded-full p-1'>0.7m</span>
           </div>
-          <div>
+          <div className='grid gap-2'>
             <h4 className='font-bold capitalize'>Weight</h4>
             <span className='bg-slate-100 block rounded-full p-1'>6.7kg</span>
           </div>
         </section>
         {/* Habilidades */}
-        <section>
+        <section className='grid gap-2'>
           <h4 className='font-bold capitalize'>Abilities</h4>
           <ul className='grid grid-cols-2 gap-4'>
             {
@@ -64,13 +78,13 @@ export const ModalPokemon = ({ showModal, onCloseModal, pokemon }) => {
           </ul>
         </section>
         {/* Stats */}
-        <section>
+        <section className='grid gap-2'>
           <h4 className='font-bold capitalize'>Stats</h4>
           <ul className='flex justify-center gap-3 flex-wrap'>
             {
               pokemon?.stats.map((stat) => (
-                <li className='bg-slate-100 p-1 rounded-full' key={stat.name}>
-                  <div className='bg-red-500 rounded-full w-[28px] aspect-square grid place-content-center'>
+                <li className={`p-1 rounded-full ${colorByStat[stat.name]}`} key={stat.name}>
+                  <div className='bg-green-500 rounded-full w-[28px] aspect-square grid place-content-center'>
                     <span className='text-xs text-white font-semibold'>{stat.name}</span>
                   </div>
                   <span className='font-semibold text-sm'>{stat.base_stat}</span>
@@ -82,8 +96,9 @@ export const ModalPokemon = ({ showModal, onCloseModal, pokemon }) => {
             <li>Stat</li>
           </ul>
         </section>
-        <section>
-          <h4>Evolutions</h4>
+        <section className='grid gap-2'>
+          <h4 className='font-bold capitalize'>Evolutions</h4>
+          <Evolutions evolutions={pokemon?.evolutions ?? []}/>
         </section>
       </article>
     </section>
