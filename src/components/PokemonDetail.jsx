@@ -3,7 +3,6 @@ import { colorByStat, colorByType } from '../constants/pokemon'
 import { Evolutions } from './Evolutions'
 
 export const PokemonDetail = ({ pokemon }) => {
-  console.log("🚀 ~ PokemonDetail ~ pokemon:", pokemon);
   return (
     <>
       <header className='absolute left-1/2 -translate-x-1/2 -translate-y-[92%] z-20 scale-[180%]'>
