@@ -1,4 +1,9 @@
+import usePokemonContext from "../hooks/usePokemonContext";
+
 export const Evolutions = ({ evolutions }) => {
+  
+  const { showPokemon } = usePokemonContext();
+
   return (
     <div className="flex justify-center items-center gap-2 flex-wrap">
       {
@@ -9,7 +14,7 @@ export const Evolutions = ({ evolutions }) => {
               <span>Lv. {evolution.min_level}</span>
             </div>
           )}
-          <button className="hover:bg-slate-100 transition-colors rounded-3xl">
+          <button onClick={() => showPokemon(evolution.pokemonInfo)} className="hover:bg-slate-100 transition-colors rounded-3xl">
             <img src={evolution.image} alt="" />
           </button>
         </article>)
